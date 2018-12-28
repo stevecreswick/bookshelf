@@ -68,6 +68,10 @@ body {
   max-width: 900px;
 }
 
+.story-container {
+  margin: 1.5em 0;
+}
+
 .tiny {
   font-size: 0.6em;
 }

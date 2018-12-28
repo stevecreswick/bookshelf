@@ -9,11 +9,6 @@ const read = util.promisify(fs.readFile).bind(fs);
 const write = util.promisify(fs.writeFile).bind(fs);
 
 const input = args.i;
-// const output = args.o;
-
-// Usage
-// @todo: going to not require output
-// node tasks/convert.js -i library/txt/twain/frog.txt -o twain/frog.json
 
 if (!input) {
   throw new Error('Input and output required');
@@ -81,7 +76,6 @@ const createDirectory = (dir) => {
     fs.mkdirSync(dir);
   }
 };
-
 
 const convert = async (file) => {
   const data = await read(file);
