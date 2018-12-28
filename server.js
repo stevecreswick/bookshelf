@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
@@ -9,9 +10,9 @@ const read = util.promisify(fs.readFile).bind(fs);
 const library = path.join(process.cwd(), 'library/json');
 const authors = fs.readdirSync(library);
 
-const express = require('express');
-
 const app = express();
+
+app.use('/assets', express.static('assets'));
 
 app.set('view engine', 'ejs');
 

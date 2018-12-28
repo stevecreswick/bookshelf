@@ -1,7 +1,14 @@
 <article>
   <h1>
     <%= metadata.title %>
+
+    <span class="tiny">(
+      <%= metadata.published %>)
+    </span>
   </h1>
+  <h4>By
+    <%= metadata.author %>
+  </h4>
 
   <% paragraphs.forEach(paragraph => { %>
   <p>

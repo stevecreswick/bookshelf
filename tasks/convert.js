@@ -52,7 +52,14 @@ const format = (text) => {
   const paragraphs = [];
   let temp = '';
 
-  split.forEach((block) => {
+  split.forEach((block, i) => {
+    // There is no line break after the last line,
+    // this ensures the last paragraphs gets added
+    if (i === split.length - 1) {
+      temp = `${temp} ${block}`;
+      paragraphs.push(temp);
+    }
+
     if (block !== '') {
       temp = `${temp} ${block}`;
     } else {
