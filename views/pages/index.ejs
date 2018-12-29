@@ -9,11 +9,22 @@
 </head>
 
 <body>
-  <%- include('../partials/_header'); %>
+  <div class="page-container">
+    <%- include('../partials/_header'); %>
 
-  <div class="container">
-    <h2>Authors</h2>
-    <%- include('../partials/_authors', { authors }); %>
+    <div class="container">
+      <ul class="author-list">
+        <% authors.forEach(author => { %>
+        <li>
+          <a href="/authors/<%= author.link %>">
+            <h3>
+              <%= author.name %>
+            </h3>
+          </a>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
   </div>
 
   <script src="" async defer></script>

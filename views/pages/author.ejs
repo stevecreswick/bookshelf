@@ -9,14 +9,25 @@
 </head>
 
 <body>
-  <%- include('../partials/_header'); %>
+  <div class="page-container">
+    <%- include('../partials/_header'); %>
 
-  <div class="container">
-    <h1>
-      <%= author %> Stories
-    </h1>
-    <%- include('../partials/_stories', { stories }); %>
+    <div class="container">
+      <h1>
+        <%= author.name %>
+      </h1>
+      <ul>
+        <% stories.forEach(story => { %>
+        <li>
+          <a href="/authors/<%= author.link %>/<%= story.link %>">
+            <%= story.name %>
+          </a>
+        </li>
+        <% }); %>
+      </ul>
+    </div>
   </div>
+
   <script src="" async defer></script>
 </body>
 

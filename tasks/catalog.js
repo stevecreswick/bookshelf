@@ -2,22 +2,12 @@
 
 const fs = require('fs');
 const path = require('path');
-const args = require('minimist')(process.argv.slice(2));
 const util = require('util');
 
 const read = util.promisify(fs.readFile).bind(fs);
 const write = util.promisify(fs.writeFile).bind(fs);
 
-const input = args.i;
-
-if (!input) {
-  throw new Error('Input and output required');
-}
-
-const inputFile = path.join(process.cwd(), input);
-
 // Metadata
-// Do I want to move this into a file adjacent to the text?
 const TITLE_POSITION = 0;
 const AUTHOR_POSITION = 1;
 const YEAR_POSITION = 2;
@@ -81,7 +71,6 @@ const convert = async (file) => {
   const data = await read(file);
   const { author, title, json } = format(data.toString());
 
-  // @todo: Use catalog.json to create routes in the index
   const formatedTitle = dashCase(title);
   const formatedAuthor = dashCase(author);
 
@@ -93,9 +82,26 @@ const convert = async (file) => {
 
   await write(outputFile, json);
 
-  console.log(formatedAuthor, formatedTitle);
   console.log('Success!!!');
   console.log(`${outputFile} written`);
+
+  // @todo: build catalog.json of link and formatted stuff and such
+  return { author, title };
 };
 
-convert(inputFile);
+
+const catalog = async () => {
+  const folder = path.join(process.cwd(), 'library', 'txt');
+
+  fs.readdirSync(folder).forEach(async (authorName) => {
+    const authorFolder = path.join(folder, authorName);
+
+    fs.readdirSync(authorFolder).forEach(async (story) => {
+      const storyFolder = path.join(folder, authorName, story);
+
+      await convert(storyFolder);
+    });
+  });
+};
+
+catalog();
