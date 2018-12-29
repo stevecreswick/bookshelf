@@ -2,6 +2,7 @@
 
 <head>
   <!-- Add Metadata -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" href="/assets/styles.css">
@@ -9,7 +10,13 @@
 
 <body>
   <%- include('../partials/_header'); %>
-  <%- include('../partials/_stories', { stories }); %>
+
+  <div class="container">
+    <h1>
+      <%= author %> Stories
+    </h1>
+    <%- include('../partials/_stories', { stories }); %>
+  </div>
   <script src="" async defer></script>
 </body>
 
