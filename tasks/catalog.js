@@ -26,6 +26,14 @@ const storyInfo = (split) => {
   };
 };
 
+const wordCount = paragraphs => paragraphs.map((paragraph) => {
+  if (paragraph === '') {
+    return 0;
+  }
+
+  return paragraph.split(' ').length;
+}).reduce((total, num) => total + num);
+
 const format = (text) => {
   const split = text.split('\n');
 
@@ -52,6 +60,8 @@ const format = (text) => {
       temp = '';
     }
   });
+
+  metadata.wordCount = wordCount(paragraphs);
 
   const { title, author } = metadata;
   return { title, author, json: JSON.stringify({ metadata, paragraphs }) };
@@ -97,9 +107,9 @@ const catalog = async () => {
     const authorFolder = path.join(folder, authorName);
 
     fs.readdirSync(authorFolder).forEach(async (story) => {
-      const storyFolder = path.join(folder, authorName, story);
+      const storyFile = path.join(folder, authorName, story);
 
-      await convert(storyFolder);
+      await convert(storyFile);
     });
   });
 };

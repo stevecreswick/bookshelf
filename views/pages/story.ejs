@@ -15,15 +15,17 @@
 
     <div class="container">
       <article>
-        <h1>
-          <%= metadata.title %>
-        </h1>
-        <h4 class="author">
-          <%= metadata.author %>
-        </h4>
-        <span class="tiny">
-          <%= metadata.published %>
-        </span>
+        <div class="story-info">
+          <h1 class="story-title">
+            <%= metadata.title %>
+          </h1>
+          <h4 class="author">
+            <%= metadata.author %>
+          </h4>
+          <span class="tiny">
+            <%= metadata.published %>
+          </span>
+        </div>
 
         <!-- <div class="story-container"> -->
         <% paragraphs.forEach(paragraph => { %>
@@ -38,7 +40,7 @@
     </div>
   </div>
 
-  <script src="" async defer></script>
+  <script src="/assets/scripts.js"></script>
 </body>
 
 </html>
