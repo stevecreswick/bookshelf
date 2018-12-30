@@ -7,9 +7,6 @@ const util = require('util');
 
 const read = util.promisify(fs.readFile).bind(fs);
 
-const library = path.join(process.cwd(), 'library/json');
-const dashCaseAuthors = fs.readdirSync(library);
-
 const app = express();
 
 app.use('/assets', express.static('assets'));
@@ -22,37 +19,44 @@ const templates = {
   story: path.join(process.cwd(), 'views', 'pages', 'story'),
 };
 
-app.get('/', (req, res) => {
-  const authors = dashCaseAuthors.map(name => ({ name: name.replace(/-/g, ' '), link: name }));
+const library = path.join(process.cwd(), 'library/json');
 
-  res.render(templates.index, { authors });
-});
+const dashCaseAuthors = fs.readdirSync(library);
 
-dashCaseAuthors.forEach((author) => {
-  // Authors Works
+const authors = dashCaseAuthors.map((author) => {
   const stories = fs.readdirSync(path.join(library, author))
     .map((file) => {
       const story = file.replace(/\.[^/.]+$/, '');
       return { link: story, name: story.replace(/-/g, ' ') };
     });
+  return { name: author.replace(/-/g, ' '), link: author, stories };
+});
+
+
+app.get('/', (req, res) => {
+  res.render(templates.index, { authors });
+});
+
+authors.forEach((author) => {
+  console.log(author);
 
   // Authors Index
-  app.get(`/authors/${author}`, (req, res) => {
-    const formatted = {
-      name: author.replace(/-/g, ' '),
-      link: author,
-    };
-    res.render(templates.author, { author: formatted, stories });
+  app.get(`/authors/${author.link}`, (req, res) => {
+    // const formatted = {
+    //   name: author.replace(/-/g, ' '),
+    //   link: author,
+    // };
+    res.render(templates.author, { author });
   });
 
-  stories.forEach(async (story) => {
-    const file = path.join(process.cwd(), 'library', 'json', author, `${story.link}.json`);
+  author.stories.forEach(async (story) => {
+    const file = path.join(process.cwd(), 'library', 'json', author.link, `${story.link}.json`);
     const data = await read(file);
     const parsed = JSON.parse(data);
 
     const { metadata, paragraphs } = parsed;
 
-    app.get(`/authors/${author}/${story.link}`, (req, res) => {
+    app.get(`/authors/${author.link}/${story.link}`, (req, res) => {
       res.render(templates.story, { metadata, paragraphs });
     });
   });

@@ -17,7 +17,7 @@
         <%= author.name %>
       </h1>
       <ul>
-        <% stories.forEach(story => { %>
+        <% author.stories.forEach(story => { %>
         <li>
           <a href="/authors/<%= author.link %>/<%= story.link %>">
             <%= story.name %>

@@ -21,6 +21,16 @@
               <%= author.name %>
             </h3>
           </a>
+
+          <ul>
+            <% author.stories.forEach(story => { %>
+            <li>
+              <a href="/authors/<%= author.link %>/<%= story.link %>">
+                <%= story.name %>
+              </a>
+            </li>
+            <% }); %>
+          </ul>
         </li>
         <% }); %>
       </ul>
