@@ -34,6 +34,14 @@ const wordCount = paragraphs => paragraphs.map((paragraph) => {
   return paragraph.split(' ').length;
 }).reduce((total, num) => total + num);
 
+// Read Time
+// https://help.medium.com/hc/en-us/articles/214991667-Read-time
+// Avg. Human reads 265 WPM
+
+// Rounding
+// https://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary
+const readTime = count => +`${Math.round(`${(count / 265)}e+2`)}e-2`;
+
 const format = (text) => {
   const split = text.split('\n');
 
@@ -62,6 +70,11 @@ const format = (text) => {
   });
 
   metadata.wordCount = wordCount(paragraphs);
+  metadata.readTime = readTime(metadata.wordCount);
+
+  console.log(metadata.wordCount);
+  console.log(metadata.wordCount / 265);
+  console.log(metadata.readTime);
 
   const { title, author } = metadata;
   return { title, author, json: JSON.stringify({ metadata, paragraphs }) };
